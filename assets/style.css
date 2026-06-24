@@ -151,7 +151,7 @@ a:hover {
 /* ---- Layout ---- */
 
 .main-prose {
-  max-width: 760px;
+  max-width: 920px;
   margin: 0 auto;
   padding: 5rem 2rem 6rem;
 }
@@ -209,7 +209,7 @@ strong {
 
 .hero-section {
   padding: 6rem 2rem 3rem;
-  max-width: 880px;
+  max-width: 1120px;
   margin: 0 auto;
   text-align: center;
 }
@@ -230,7 +230,7 @@ strong {
 .hero-title {
   font-size: clamp(2.75rem, 6vw, 4.5rem);
   font-weight: 700;
-  line-height: 1.02;
+  line-height: 1.2;
   letter-spacing: -0.035em;
   color: var(--ink);
   margin-bottom: 1.5rem;
@@ -339,7 +339,7 @@ strong {
 }
 
 .section-narrow {
-  max-width: 760px;
+  max-width: 920px;
 }
 
 .section-title {
