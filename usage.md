@@ -29,7 +29,7 @@ Type `/allium` to get started and Allium examines your project, then offers to d
       <span class="prompt">&gt;</span> /allium
     </div>
     <div class="turn llm">
-      <span class="marker">✻</span> I can see you have an existing codebase with authentication, billing and a team management module, but no Allium spec yet. I can <strong>distill from code</strong> to capture what your implementation currently does, or <strong>start from intent</strong> to build a spec through conversation. Which would you prefer?
+      <span class="marker">✻</span> I can see you have an existing codebase with authentication, billing and a team management module, but no Allium spec yet. I can distill from code to capture what your implementation currently does, or start from intent to build a spec through conversation. Which would you prefer?
     </div>
     <div class="turn user">
       <span class="prompt">&gt;</span> Distill from code. Start with the authentication module.
