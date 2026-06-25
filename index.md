@@ -44,7 +44,7 @@ title: Home
 <section class="band">
 <div class="section">
 <h2 class="section-title">Why a spec language at all?</h2>
-<p class="section-lead">Conversation is the wrong artefact to hand a model. It drifts within a session and evaporates between them. Allium gives intent a shape that survives.</p>
+<p class="section-lead">Allium is a formal language for capturing what a system should do, separate from how. There are four reasons to do this:</p>
 
 <div class="feature-grid">
   <div class="feature-card feature-card-coral">
