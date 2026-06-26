@@ -352,7 +352,6 @@ strong {
 .section-lead {
   font-size: 1.15rem;
   color: var(--ink-soft);
-  max-width: 38rem;
   margin-bottom: 3rem;
 }
 
