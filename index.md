@@ -7,13 +7,36 @@ title: Home
 <!-- index.md keeps its front matter (layout: default, layout_variant: home, title: Home). Body below. -->
 
 <section class="hero">
-  <img class="hero__mark" src="{{ site.baseurl }}/assets/logo-white.png" alt="" aria-hidden="true">
-  <span class="eyebrow">Spec language for LLMs</span>
-  <h1 class="display hero__title">The specification language<br>that <em>talks back</em></h1>
-  <p class="lead hero__lead">Allium clarifies your intent into a precise, durable artefact that keeps your AI grounded, conversation after conversation.</p>
-  <div class="cta-row">
-    <a href="{{ site.baseurl }}/installation" class="btn btn-accent">Get started <span class="arrow" aria-hidden="true">&rarr;</span></a>
-    <a href="{{ site.baseurl }}/usage" class="btn btn-secondary">See it in action</a>
+  <div class="hero__copy">
+    <span class="eyebrow">Spec language for LLMs</span>
+    <h1 class="display hero__title">The specification language that <em>talks back</em></h1>
+    <p class="lead hero__lead">Allium clarifies your intent into a precise, durable artefact that keeps your AI grounded, conversation after conversation.</p>
+    <div class="cta-row">
+      <a href="{{ site.baseurl }}/installation" class="btn btn-accent">Get started <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a href="{{ site.baseurl }}/usage" class="btn btn-secondary">See it in action</a>
+    </div>
+  </div>
+  <div class="hero__panel">
+    <div class="code-window">
+      <div class="code-tab">
+        <span class="code-dot"></span>
+        <span class="code-file">orders.allium</span>
+        <span class="code-lang">allium</span>
+      </div>
+      <pre class="code-body"><code class="language-allium">rule OrderConfirmed {
+    when: CheckoutCompleted(cart, payment)
+
+    requires: cart.items.all(in_stock)
+    requires: payment.authorised
+
+    ensures:
+        let order = Order.created(
+            items: cart.items,
+            total: cart.total
+        )
+        PaymentCaptured(order: order)
+}</code></pre>
+    </div>
   </div>
 </section>
 
@@ -49,9 +72,11 @@ title: Home
 <hr class="rule">
 
 <section class="section section-block">
-  <span class="eyebrow">Why a spec language at all?</span>
-  <h2 class="h2 section-intro-title">A formal language for what a system should do, separate from how.</h2>
-  <p class="lead section-intro-lead">There are four reasons to capture intent this way.</p>
+  <div class="section-head" data-reveal>
+    <span class="eyebrow">Why a spec language at all?</span>
+    <h2 class="h2 section-head__title">A formal language for what a system should do, separate from how.</h2>
+    <p class="lead section-head__lead">There are four reasons to capture intent this way.</p>
+  </div>
 
   <div class="why-grid why-grid-spaced" data-reveal>
     <div class="why-card">
@@ -79,36 +104,196 @@ title: Home
 
 <hr class="rule">
 
-<section class="section-narrow section-block qa" markdown="1">
+<!-- ===== [1] CODE vs INTENT — editorial spread ===== -->
+<section class="section section-block spread" data-reveal>
+  <div class="spread__copy">
+    <span class="eyebrow">Code vs intent</span>
+    <h2 class="h2 spread__title">Why not just point the LLM at the code?</h2>
+    <p class="lead spread__lead">Modern LLMs navigate codebases effectively, and many engineers find this sufficient. The limit appears when you need to distinguish what the code <em>does</em> from what it <em>should do</em>.</p>
+    <p>Code captures implementation, including bugs and expedient decisions, and the model treats all of it as intended behaviour. Precise prompting helps, but precise prompting <em>is</em> specifying intent: which behaviours are deliberate, which constraints must be preserved.</p>
+    <p>You end up writing descriptions of intent scattered across your prompts. Allium captures it in a form that persists, so the next engineer, the next model, or you next week can read not just what the system does, but what it was meant to do.</p>
+  </div>
 
-## Why not just point the LLM at the code?
+  <div class="spread__exhibit">
+    <span class="exhibit-tag">what the code does</span>
+    <div class="code-window exhibit-window">
+      <div class="code-tab">
+        <span class="code-dot"></span>
+        <span class="code-file">orders.py</span>
+        <span class="code-lang">python</span>
+      </div>
+      <pre class="code-body"><code><span class="allium-keyword">def</span> confirm_order(cart, payment):
+    <span class="allium-comment"># expedient: VIP carts skip the stock check</span>
+    <span class="allium-keyword">if</span> cart.vip <span class="allium-keyword">or</span> all(i.in_stock <span class="allium-keyword">for</span> i <span class="allium-keyword">in</span> cart.items):
+        capture(payment)         <span class="allium-comment"># charges immediately</span>
+        <span class="allium-keyword">return</span> Order.created(cart)</code></pre>
+    </div>
 
-Modern LLMs navigate codebases effectively, and many engineers find this sufficient. The limitation appears when you need to distinguish what the code *does* from what it *should do*. Code captures implementation, including bugs and expedient decisions. The model treats all of it as intended behaviour.
+    <div class="gap-tag">
+      <span class="gap-line"></span>
+      <span class="gap-label">intent &ne; implementation</span>
+      <span class="gap-line"></span>
+    </div>
 
-Precise prompting helps, but precise prompting means specifying intent: which behaviours are deliberate, which constraints must be preserved. You end up writing descriptions of intent distributed across your prompts. Allium captures this in a form that persists. The next engineer, or the next model, or you next week, can understand not just what the system does but what it was meant to do.
+    <span class="exhibit-tag exhibit-tag--accent">what it should do</span>
+    <div class="code-window exhibit-window">
+      <div class="code-tab">
+        <span class="code-dot"></span>
+        <span class="code-file">orders.allium</span>
+        <span class="code-lang">allium</span>
+      </div>
+      <pre class="code-body"><code class="language-allium">rule OrderConfirmed {
+    when: CheckoutCompleted(cart, payment)
 
-## Why not capture requirements in markdown?
+    requires: cart.items.all(in_stock)
+    requires: payment.authorised
 
-Markdown provides no framework for surfacing ambiguities and contradictions. You can write "users must be authenticated" in one section and "guest checkout is supported" in another without the format highlighting the tension. Capable models may resolve such ambiguity silently in ways you didn't intend. Weaker models may not notice that there's an ambiguity at all.
+    ensures: PaymentCaptured(order)
+}</code></pre>
+    </div>
+  </div>
+</section>
 
-Allium's structure makes contradictions visible. When two rules have incompatible preconditions, the formal syntax exposes the conflict. The model doesn't need to be clever enough to spot the issue in prose; the structure does that work. Markdown can capture robust behaviour with sufficient diligence, but that diligence falls entirely on the author. Allium's constraints guide you toward completeness and consistency.
+<hr class="rule">
 
-## Iterating on specifications
+<!-- ===== [2] STRUCTURE OVER PROSE — compare panels + diagnostic ===== -->
+<section class="section section-block">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow">Structure over prose</span>
+    <h2 class="h2 section-head__title">Why not capture requirements in markdown?</h2>
+    <p class="lead section-head__lead">Markdown gives you no framework for surfacing ambiguities and contradictions. You can require authentication in one section and allow guest checkout in another, and the format never flags the tension. A capable model may resolve it silently in a way you didn&rsquo;t intend; a weaker one may never notice it exists.</p>
+  </div>
 
-The specification and the code evolve together. Writing and refining a behavioural model alongside implementation deepens your understanding of both the problem and your solution. Questions surface that you wouldn't have thought to ask; constraints emerge that only become visible when you try to formalise them.
+  <div class="compare" data-reveal>
+    <div class="compare__col">
+      <span class="exhibit-tag">prose &middot; conflict hidden</span>
+      <div class="code-window exhibit-window">
+        <div class="code-tab">
+          <span class="code-dot"></span>
+          <span class="code-file">requirements.md</span>
+          <span class="code-lang">markdown</span>
+        </div>
+        <pre class="code-body md-body"><code><span class="md-h">## Authentication</span>
+<span class="md-flag">- users must be authenticated to check out</span>
 
-Manual coding embedded this discovery in the act of implementation. LLMs generate code from descriptions, shifting where design thinking occurs. Allium captures it explicitly: the specification becomes the site of that thinking, the code its expression.
+<span class="md-h">## Checkout</span>
+<span class="md-flag">- guest checkout is supported</span></code></pre>
+      </div>
+    </div>
 
-Two processes feed this growth: **elicitation** works forward from intent through structured conversations with stakeholders, while **distillation** works backward from implementation to capture what the system actually does, including behaviours that were never explicitly decided. Distillation reveals what you built; elicitation clarifies what you meant. When these diverge, you've found something worth investigating.
+    <div class="compare__col">
+      <span class="exhibit-tag exhibit-tag--accent">allium &middot; conflict exposed</span>
+      <div class="code-window exhibit-window">
+        <div class="code-tab">
+          <span class="code-dot"></span>
+          <span class="code-file">checkout.allium</span>
+          <span class="code-lang">allium</span>
+        </div>
+        <pre class="code-body"><code class="language-allium">rule Checkout {
+    when: CheckoutStarted(session)
+    requires: session.authenticated
+}
 
-See the [elicitation guide](https://github.com/juxt/allium/blob/main/skills/elicit/SKILL.md) and the [distillation guide](https://github.com/juxt/allium/blob/main/skills/distill/SKILL.md) for detailed approaches.
+rule GuestCheckout {
+    when: CheckoutStarted(session)
+    requires: not session.authenticated
+}</code></pre>
+      </div>
+    </div>
+  </div>
 
-## On single sources of truth
+  <div class="diagnostic" data-reveal role="status">
+    <span class="diagnostic__mark" aria-hidden="true">&#10043;</span>
+    <div class="diagnostic__body">
+      <span class="diagnostic__cmd">$ allium check checkout.allium</span>
+      <span class="diagnostic__line"><span class="diagnostic__tag">conflict</span> <code>Checkout</code> and <code>GuestCheckout</code> share trigger <code>CheckoutStarted</code></span>
+      <span class="diagnostic__detail">requires: session.authenticated &nbsp;&middot;&nbsp; requires: not session.authenticated &nbsp;&rarr;&nbsp; preconditions can never both hold</span>
+    </div>
+  </div>
 
-A common objection is that maintaining behavioural models alongside code violates the single source of truth principle. But code captures both intentional and accidental behaviour, with no mechanism to distinguish them. Is that authentication quirk a feature or a bug? The code can't tell you. You need something outside the code to even articulate "this behaviour is wrong". Engineers already accept this in other contexts: type systems express intent that code must satisfy, tests assert expected behaviour against actual behaviour. These aren't duplication.
+  <p class="section-coda" data-reveal>The model doesn&rsquo;t need to be clever enough to spot the issue in prose &mdash; the structure does that work. Markdown can capture robust behaviour with enough diligence, but that diligence falls entirely on the author. Allium&rsquo;s constraints guide you toward completeness and consistency.</p>
+</section>
 
-Allium applies the same pattern. Code excels at expressing *how*; behavioural models excel at expressing *what* and *under which conditions*. When these disagree, that disagreement is information. Perhaps the implementation drifted from intent, or perhaps the model was naive. Either might need to change. The gap between them surfaces questions you need to answer. Redundancy, in this context, isn't overhead. It's resilience.
+<hr class="rule">
 
+<!-- ===== [3] TWO DIRECTIONS — bidirectional flow rail ===== -->
+<section class="section section-block">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow">Two directions of travel</span>
+    <h2 class="h2 section-head__title">The specification and the code evolve together.</h2>
+    <p class="lead section-head__lead">Refining a behavioural model alongside implementation deepens your understanding of both the problem and your solution. LLMs generate code from descriptions, shifting where design thinking happens &mdash; the specification becomes the site of that thinking, and the code its expression.</p>
+  </div>
+
+  <div class="flow-rail" data-reveal>
+    <div class="flow-node">
+      <span class="flow-node__tag">source</span>
+      <span class="flow-node__title">Intent</span>
+      <p class="flow-node__desc">What you meant the system to do &mdash; goals, constraints, the behaviour you actually intended.</p>
+    </div>
+
+    <div class="flow-arrow flow-arrow--fwd">
+      <span class="flow-arrow__label">elicitation <i class="flow-arrow__glyph" aria-hidden="true"></i></span>
+      <span class="flow-arrow__track"></span>
+    </div>
+
+    <div class="flow-node flow-node--spec">
+      <span class="flow-node__tag">model.allium</span>
+      <span class="flow-node__title">Specification</span>
+      <p class="flow-node__desc">The durable artefact both directions meet in &mdash; the shared site where design thinking now lives.</p>
+    </div>
+
+    <div class="flow-arrow flow-arrow--back">
+      <span class="flow-arrow__label"><i class="flow-arrow__glyph flow-arrow__glyph--back" aria-hidden="true"></i> distillation</span>
+      <span class="flow-arrow__track"></span>
+    </div>
+
+    <div class="flow-node">
+      <span class="flow-node__tag">source</span>
+      <span class="flow-node__title">Implementation</span>
+      <p class="flow-node__desc">What the code actually does today, including behaviours that were never explicitly decided.</p>
+    </div>
+  </div>
+
+  <div class="flow-foot" data-reveal>
+    <p>Elicitation works forward from intent through structured conversation; distillation works backward from implementation. Distillation reveals what you <em>built</em>; elicitation clarifies what you <em>meant</em>. When the two diverge, you&rsquo;ve found something worth investigating.</p>
+    <div class="guide-links">
+      <a class="guide-link" href="https://github.com/juxt/allium/blob/main/skills/elicit/SKILL.md">elicitation guide <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="guide-link" href="https://github.com/juxt/allium/blob/main/skills/distill/SKILL.md">distillation guide <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ===== [4] SINGLE SOURCES OF TRUTH — precedent trio + pull-quote ===== -->
+<section class="section section-block">
+  <div class="section-head section-head--center" data-reveal>
+    <span class="eyebrow">On single sources of truth</span>
+    <h2 class="h2 section-head__title">Redundancy here isn&rsquo;t duplication. It&rsquo;s a check.</h2>
+    <p class="lead section-head__lead">A common objection: a behavioural model beside the code violates single-source-of-truth. But code captures both intentional and accidental behaviour, with no mechanism to tell them apart &mdash; is that authentication quirk a feature or a bug? The code can&rsquo;t tell you. You need something outside the code to even say &ldquo;this is wrong.&rdquo; Engineers already accept this elsewhere.</p>
+  </div>
+
+  <div class="trio" data-reveal>
+    <div class="trio-card">
+      <span class="why-index">01</span>
+      <h3>Type systems</h3>
+      <p>Express intent the implementation must satisfy. Nobody calls a signature a duplicate of its body.</p>
+    </div>
+    <div class="trio-card">
+      <span class="why-index">02</span>
+      <h3>Tests</h3>
+      <p>Assert expected behaviour against actual behaviour. The gap between them is the whole point.</p>
+    </div>
+    <div class="trio-card trio-card--accent">
+      <span class="why-index">03</span>
+      <h3>Allium</h3>
+      <p>The same pattern, raised to behaviour: a model of <em>what</em>, and under which conditions, beside the code that says <em>how</em>.</p>
+    </div>
+  </div>
+
+  <blockquote class="pull-quote" data-reveal>
+    <p>When code and model disagree, that disagreement is <em>information</em>. Redundancy, in this context, isn&rsquo;t overhead. It&rsquo;s <em>resilience</em>.</p>
+  </blockquote>
 </section>
 
 <section class="section">
