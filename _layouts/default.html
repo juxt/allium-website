@@ -18,7 +18,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css">
   <script src="{{ site.baseurl }}/assets/allium-highlight.js"></script>
 </head>
@@ -29,11 +29,9 @@
         <img src="{{ site.baseurl }}/assets/logo-white.png" alt="Allium" class="logo">
         <div class="brand-text">
           <h1 class="brand-title">Allium</h1>
-          <p class="brand-tagline">Velocity through clarity</p>
         </div>
       </a>
       <ul class="nav-menu">
-        <li><a href="{{ site.baseurl }}/" class="{% if page.url == '/' %}active{% endif %}">Home</a></li>
         <li><a href="{{ site.baseurl }}/usage" class="{% if page.url contains '/usage' %}active{% endif %}">Usage</a></li>
         <li><a href="{{ site.baseurl }}/language" class="{% if page.url contains '/language' %}active{% endif %}">Language</a></li>
         <li><a href="{{ site.baseurl }}/installation" class="{% if page.url contains '/installation' %}active{% endif %}">Install</a></li>
@@ -51,7 +49,30 @@
     </main>
   {% endif %}
   <footer>
-    <p>© JUXT Ltd 2026 &middot; <a href="https://github.com/juxt/allium">GitHub</a></p>
+    <div class="footer-inner">
+      <a href="{{ site.baseurl }}/" class="footer-brand">
+        <img src="{{ site.baseurl }}/assets/logo-white.png" alt="Allium" class="footer-logo">
+        <span class="footer-name">Allium</span>
+      </a>
+      <p>© JUXT Ltd 2026 &middot; Velocity through clarity &middot; <a href="https://github.com/juxt/allium">GitHub</a></p>
+    </div>
   </footer>
+  <script>
+    (function () {
+      var els = document.querySelectorAll('[data-reveal]');
+      if (!els.length) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-in'); });
+        return;
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      els.forEach(function (el) { obs.observe(el); });
+    })();
+  </script>
 </body>
 </html>

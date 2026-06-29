@@ -4,70 +4,82 @@ layout_variant: home
 title: Home
 ---
 
-<section class="hero-section">
-  <span class="hero-eyebrow">Spec language for LLMs</span>
-  <h1 class="hero-title">The specification language<br>that <em>talks back</em></h1>
-  <p class="hero-lead">Allium clarifies your intent into a precise, durable artefact that keeps your AI grounded, conversation after conversation.</p>
+<!-- index.md keeps its front matter (layout: default, layout_variant: home, title: Home). Body below. -->
+
+<section class="hero">
+  <img class="hero__mark" src="{{ site.baseurl }}/assets/logo-white.png" alt="" aria-hidden="true">
+  <span class="eyebrow">Spec language for LLMs</span>
+  <h1 class="display hero__title">The specification language<br>that <em>talks back</em></h1>
+  <p class="lead hero__lead">Allium clarifies your intent into a precise, durable artefact that keeps your AI grounded, conversation after conversation.</p>
   <div class="cta-row">
-    <a href="{{ site.baseurl }}/installation" class="btn btn-accent">Get started <span class="arrow">&rarr;</span></a>
+    <a href="{{ site.baseurl }}/installation" class="btn btn-accent">Get started <span class="arrow" aria-hidden="true">&rarr;</span></a>
     <a href="{{ site.baseurl }}/usage" class="btn btn-secondary">See it in action</a>
   </div>
 </section>
 
-<section class="section">
-<div class="terminal">
-  <div class="terminal-titlebar">
-    <div class="terminal-dots">
-      <span class="terminal-dot red"></span>
-      <span class="terminal-dot yellow"></span>
-      <span class="terminal-dot green"></span>
+<hr class="rule">
+
+<section class="section section-block">
+  <div class="terminal" data-reveal>
+    <div class="terminal-titlebar">
+      <div class="terminal-dots">
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+      </div>
+      <span class="terminal-title">Claude Code</span>
     </div>
-    <span class="terminal-title">Claude Code</span>
+    <div class="terminal-body">
+      <div class="turn user">
+        <span class="prompt">&gt;</span>We need backorder support. Let customers order items that are currently out of stock.
+      </div>
+      <div class="turn llm contradiction">
+        <span class="marker">&#10043;</span>Your Allium says <code>OrderConfirmed</code> triggers <code>PaymentCaptured</code>, which charges the customer immediately. A backorder would charge before the item ships. Should we defer payment capture until the item is available, or capture immediately and refund if we can't fulfil?
+      </div>
+      <div class="turn user">
+        <span class="prompt">&gt;</span>Capture payment details upfront but don't charge until we can fulfil. Update the Allium and implement.
+      </div>
+      <div class="turn llm">
+        <span class="marker">&#10043;</span>Updated <code>orders.allium</code>. <code>BackorderPlaced</code> authorises payment and defers capture until <code>ReadyToFulfil</code>. Implementing now.
+      </div>
+    </div>
   </div>
-  <div class="terminal-body">
-    <div class="turn user">
-      <span class="prompt">&gt;</span> We need backorder support. Let customers order items that are currently out of stock.
-    </div>
-    <div class="turn llm">
-      <span class="marker">✻</span> Your Allium says <code>OrderConfirmed</code> triggers <code>PaymentCaptured</code>, which charges the customer immediately. A backorder would charge before the item ships. Should we defer payment capture until the item is available, or capture immediately and refund if we can't fulfil?
-    </div>
-    <div class="turn user">
-      <span class="prompt">&gt;</span> Capture payment details upfront but don't charge until we can fulfil. Update the Allium and implement.
-    </div>
-    <div class="turn llm">
-      <span class="marker">✻</span> Updated <code>orders.allium</code>. <code>BackorderPlaced</code> authorises payment and defers capture until <code>ReadyToFulfil</code>. Implementing now.
-    </div>
-  </div>
-</div>
 </section>
 
-<section class="band">
-<div class="section">
-<h2 class="section-title">Why a spec language at all?</h2>
-<p class="section-lead">Allium is a formal language for capturing what a system should do, separate from how. There are four reasons to do this:</p>
+<hr class="rule">
 
-<div class="feature-grid">
-  <div class="feature-card feature-card-coral">
-    <h3>Stops the drift</h3>
-    <p>Within a session, meaning slips: by prompt twenty, the model is pattern-matching its own outputs rather than your original intent. A spec anchors it.</p>
+<section class="section section-block">
+  <span class="eyebrow">Why a spec language at all?</span>
+  <h2 class="h2 section-intro-title">A formal language for what a system should do, separate from how.</h2>
+  <p class="lead section-intro-lead">There are four reasons to capture intent this way.</p>
+
+  <div class="why-grid why-grid-spaced" data-reveal>
+    <div class="why-card">
+      <span class="why-index">01</span>
+      <h3>Stops the drift</h3>
+      <p>Within a session, meaning slips: by prompt twenty, the model is pattern-matching its own outputs rather than your original intent. A spec anchors it.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-index">02</span>
+      <h3>Persists between sessions</h3>
+      <p>Constraints and decisions captured in conversation disappear when the chat ends. An Allium spec is a durable artefact the next session, or the next engineer, can read.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-index">03</span>
+      <h3>Surfaces contradictions</h3>
+      <p>Markdown lets two requirements quietly disagree. Allium's structure exposes the conflict instead of letting a capable model paper over it.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-index">04</span>
+      <h3>Separates what from how</h3>
+      <p>Code can't tell you whether a behaviour is intended. Allium says what the system should do; the code says how it does it. The gap between them is information.</p>
+    </div>
   </div>
-  <div class="feature-card feature-card-purple">
-    <h3>Persists between sessions</h3>
-    <p>Constraints and decisions captured in conversation disappear when the chat ends. An Allium spec is a durable artefact the next session, or the next engineer, can read.</p>
-  </div>
-  <div class="feature-card feature-card-amber">
-    <h3>Surfaces contradictions</h3>
-    <p>Markdown lets two requirements quietly disagree. Allium's structure exposes the conflict instead of letting a capable model paper over it.</p>
-  </div>
-  <div class="feature-card feature-card-mint">
-    <h3>Separates what from how</h3>
-    <p>Code can't tell you whether a behaviour is intended. Allium says what the system should do; the code says how it does it. The gap between them is information.</p>
-  </div>
-</div>
-</div>
 </section>
 
-<section class="section section-narrow" markdown="1">
+<hr class="rule">
+
+<section class="section-narrow section-block qa" markdown="1">
 
 ## Why not just point the LLM at the code?
 
@@ -99,11 +111,14 @@ Allium applies the same pattern. Code excels at expressing *how*; behavioural mo
 
 </section>
 
-<section class="cta-banner">
-  <h2>Ready to give your AI a clearer brief?</h2>
-  <p>Install Allium in your editor and turn your next conversation into a spec your future self can still read.</p>
-  <div class="cta-row">
-    <a href="{{ site.baseurl }}/installation" class="btn btn-accent">Install Allium <span class="arrow">&rarr;</span></a>
-    <a href="https://github.com/juxt/allium" class="btn btn-secondary">View on GitHub</a>
+<section class="section">
+  <div class="cta-banner" data-reveal>
+    <span class="eyebrow">Velocity through clarity</span>
+    <h2 class="h2 cta-banner-title">Ready to give your AI a clearer brief?</h2>
+    <p>Install Allium in your editor and turn your next conversation into a spec your future self can still read.</p>
+    <div class="cta-row">
+      <a href="{{ site.baseurl }}/installation" class="btn btn-accent">Install Allium <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a href="https://github.com/juxt/allium" class="btn btn-secondary">View on GitHub</a>
+    </div>
   </div>
 </section>
