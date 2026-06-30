@@ -74,5 +74,87 @@
       els.forEach(function (el) { obs.observe(el); });
     })();
   </script>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-carousel]');
+      if (!root) return;
+      var viewport = root.querySelector('.testi__viewport');
+      var track = root.querySelector('.testi__track');
+      var slides = root.querySelectorAll('.testi__slide');
+      var dots = root.querySelectorAll('.testi__dot');
+      if (!viewport || !track || slides.length < 2) return;
+
+      var index = 0;
+      var count = slides.length;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var timer = null;
+
+      function center() {
+        var active = slides[index];
+        var offset = active.offsetLeft - (viewport.clientWidth - active.clientWidth) / 2;
+        track.style.transform = 'translateX(' + (-offset) + 'px)';
+      }
+      function go(i) {
+        index = (i + count) % count;
+        for (var d = 0; d < count; d++) { slides[d].classList.toggle('is-active', d === index); }
+        for (var k = 0; k < dots.length; k++) {
+          var on = k === index;
+          dots[k].classList.toggle('is-active', on);
+          if (on) { dots[k].setAttribute('aria-current', 'true'); }
+          else { dots[k].removeAttribute('aria-current'); }
+        }
+        center();
+      }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function play() { if (reduce || timer) return; timer = setInterval(function () { go(index + 1); }, 6000); }
+
+      for (var d = 0; d < dots.length; d++) {
+        (function (n) { dots[n].addEventListener('click', function () { stop(); go(n); }); })(d);
+      }
+      window.addEventListener('resize', center);
+      window.addEventListener('load', center);
+
+      // ---- drag / swipe (pointer events cover mouse + touch) ----
+      function baseOffset() {
+        var active = slides[index];
+        return active.offsetLeft - (viewport.clientWidth - active.clientWidth) / 2;
+      }
+      var dragging = false, startX = 0, base = 0, moved = 0;
+      viewport.addEventListener('pointerdown', function (e) {
+        if (e.button && e.button !== 0) return;
+        dragging = true; startX = e.clientX; moved = 0; base = baseOffset();
+        track.style.transition = 'none';
+        viewport.classList.add('is-dragging');
+        stop();
+        if (viewport.setPointerCapture) viewport.setPointerCapture(e.pointerId);
+      });
+      viewport.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        moved = e.clientX - startX;
+        track.style.transform = 'translateX(' + (moved - base) + 'px)';
+      });
+      function endDrag() {
+        if (!dragging) return;
+        dragging = false;
+        viewport.classList.remove('is-dragging');
+        track.style.transition = '';
+        var threshold = Math.min(80, viewport.clientWidth * 0.15);
+        if (Math.abs(moved) > threshold) { go(index + (moved < 0 ? 1 : -1)); }
+        else { center(); }
+        play();
+      }
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      viewport.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', play);
+      root.addEventListener('focusin', stop);
+      root.addEventListener('focusout', play);
+
+      go(0);
+      play();
+    })();
+  </script>
 </body>
 </html>

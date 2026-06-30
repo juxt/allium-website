@@ -296,6 +296,65 @@ rule GuestCheckout {
   </blockquote>
 </section>
 
+<hr class="rule">
+
+<!-- ===== [5] TESTIMONIALS — sliding carousel ===== -->
+<section class="section section-block">
+  <div class="section-head section-head--center" data-reveal>
+    <span class="eyebrow">From the field</span>
+    <h2 class="h2 section-head__title">What early users are saying.</h2>
+  </div>
+
+  <div class="testi" data-carousel data-reveal>
+    <div class="testi__viewport">
+      <ul class="testi__track">
+        <li class="testi__slide is-active">
+          <figure class="testi-card">
+            <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
+            <blockquote class="testi-card__quote">
+              <p>I&rsquo;m definitely enjoying using Allium, and finding driving Claude Code with spec to be <em>highly effective</em> both in brownfield and greenfield developments.</p>
+            </blockquote>
+            <figcaption class="testi-card__cite">
+              <span class="testi-card__name">Jim Downing</span>
+              <span class="testi-card__role">CPTO, Cyclops Workout</span>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="testi__slide">
+          <figure class="testi-card">
+            <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
+            <blockquote class="testi-card__quote">
+              <p>This is a <em>game changer</em> for agentic pair planning. I run Allium on all new planning sessions &mdash; it catches so many of my blind spots.</p>
+            </blockquote>
+            <figcaption class="testi-card__cite">
+              <span class="testi-card__name">Ben Ritchie</span>
+              <span class="testi-card__role">CTO, Stealth Startup</span>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="testi__slide">
+          <figure class="testi-card">
+            <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
+            <blockquote class="testi-card__quote">
+              <p>Thanks for this wonderful contribution! Early days, but I&rsquo;ve <em>distilled a large amount of knowledge</em> from a heavily WIP backoffice system.</p>
+            </blockquote>
+            <figcaption class="testi-card__cite">
+              <span class="testi-card__name">John Grimsey</span>
+              <span class="testi-card__role">Group CTO, New Age Partners</span>
+            </figcaption>
+          </figure>
+        </li>
+      </ul>
+    </div>
+
+    <div class="testi__dots">
+      <button class="testi__dot is-active" type="button" aria-label="Show testimonial 1" aria-current="true"></button>
+      <button class="testi__dot" type="button" aria-label="Show testimonial 2"></button>
+      <button class="testi__dot" type="button" aria-label="Show testimonial 3"></button>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="cta-banner" data-reveal>
     <span class="eyebrow">Velocity through clarity</span>
