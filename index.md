@@ -42,7 +42,7 @@ title: Home
 
 <hr class="rule">
 
-<section class="section section-block">
+<section class="section section-block section-tint">
   <div class="terminal" data-reveal>
     <div class="terminal-titlebar">
       <div class="terminal-dots">
@@ -105,7 +105,7 @@ title: Home
 <hr class="rule">
 
 <!-- ===== [1] CODE vs INTENT — editorial spread ===== -->
-<section class="section section-block spread" data-reveal>
+<section class="section section-block spread section-tint" data-reveal>
   <div class="spread__copy">
     <span class="eyebrow">Code vs intent</span>
     <h2 class="h2 spread__title">Why not just point the LLM at the code?</h2>
@@ -217,7 +217,7 @@ rule GuestCheckout {
 <hr class="rule">
 
 <!-- ===== [3] TWO DIRECTIONS — bidirectional flow rail ===== -->
-<section class="section section-block">
+<section class="section section-block section-tint">
   <div class="section-head" data-reveal>
     <span class="eyebrow">Two directions of travel</span>
     <h2 class="h2 section-head__title">The specification and the code evolve together.</h2>
@@ -299,7 +299,7 @@ rule GuestCheckout {
 <hr class="rule">
 
 <!-- ===== [5] TESTIMONIALS — sliding carousel ===== -->
-<section class="section section-block">
+<section class="section section-block section-tint">
   <div class="section-head section-head--center" data-reveal>
     <span class="eyebrow">From the field</span>
     <h2 class="h2 section-head__title">What early users are saying.</h2>

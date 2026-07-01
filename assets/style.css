@@ -29,6 +29,7 @@
   --accent-tint:   rgba(124,140,255,0.12);
   --accent-glow:   rgba(124,140,255,0.40);
   --accent-wash:   rgba(124,140,255,0.10);
+  --section-band:  #12182B;  /* alternating full-bleed section band — solid, lifted cool navy */
 
   /* ===== SYNTAX — brighter for the elevated code surface ===== */
   --syn-keyword: #B79DFF;
@@ -157,6 +158,16 @@ code, kbd, pre, .mono { font-family: var(--font-mono); font-size: 0.9375rem; lin
 .section-block { padding-block: clamp(5rem, 11vh, 9rem); }
 .section-narrow { max-width: var(--measure); margin-inline: auto; padding-inline: var(--s-3); }
 .rule { border: 0; border-top: 1px solid var(--border); margin: 0; }
+
+/* Alternating section band — full-bleed solid color for a clean step between
+   sections. body has overflow-x: clip, so 100vw adds no horizontal scrollbar. */
+.section-tint { position: relative; isolation: isolate; }
+.section-tint::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  left: 50%; transform: translateX(-50%);
+  width: 100vw; top: 0; bottom: 0;
+  background: var(--section-band);
+}
 .main-home { display: block; }
 .section-intro-title { margin-top: var(--s-2); max-width: 24ch; }
 .section-intro-lead  { margin-top: var(--s-3); max-width: 46rem; }
